@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>时代复兴-北京时代复兴投资管理有限公司</title>
+	<meta name="keywords" content="时代复兴-北京时代复兴投资管理有限公司" />
+	<meta name="description" content="时代复兴-北京时代复兴投资管理有限公司" />
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/fore/bootstrap/style.css" rel="stylesheet">
+    <link href="/static/fore/bootstrap/user-css.css" rel="stylesheet">
+    
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+<style type="text/css">
+	.error{
+		color: #A94442;
+	}
+	.product-table-head tr th,
+	.product-table-body tr th{background-color: #FAFAFA;}
+	.product-table-head input[type="text"]{width: 60px;}
+</style>
+
+<script type="text/javascript">
+ 	$().ready(function(){
+   $('#editMyInfoModal').on('show.bs.modal', function () {
+   	$.ajax({
+  		  url: "/my/userInfo.jspx",
+  		  type: "post",
+  		  dataType: "json",
+  		  success: function(user){
+	  	$("#realName").val(user.realName);	    			  
+	  	$("#title").val(user.title);	    			  
+	  	$("#email").val(user.email);	    			  
+	  	$("#phone").val(user.phone);	    			  
+	  	$("#mobile").val(user.mobile);	    			  
+	  	$("#preComment").val(user.preComment);	    			  
+	  	$("#importance").val(user.importance);	    			  
+  		  }
+  		});
+  	});
+   
+   $.validator.setDefaults( {
+	submitHandler: function () {
+		alert( "submitted!" );
+	}
+} );
+
+$( "#form1" ).validate( {
+	rules: {
+		realName: "required",
+		mobile: {
+			required: true,
+			ismobile: true
+		}
+	},
+	messages: {
+		realName: "请输入您的姓名",
+		mobile: {
+			required: "请输入您的手机"
+		}
+	},
+	errorElement: "em",
+	errorPlacement: function ( error, element ) {
+		error.addClass( "help-block" );
+		if ( element.prop( "type" ) === "checkbox" ) {
+			error.insertAfter( element.parent( "label" ) );
+		} else {
+			error.insertAfter( element );
+		}
+	},
+	highlight: function ( element, errorClass, validClass ) {
+		$( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+	},
+	unhighlight: function (element, errorClass, validClass) {
+		$( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+	}
+} );
+ 	});
+ 	
+ 	function saveMyInfo() {
+ 		if($("#form1").valid()){
+ 			$.ajax({
+  		  url: "/my/saveUserInfo.jspx",
+  		  type: "post",
+  		  data: $('#form1').serialize(),
+  		  success: function(result){
+  			if(result == "success")
+	    	   alert("保存成功");
+	       else
+	    	   alert("保存失败");
+    	$('#editMyInfoModal').modal('hide');		  
+  		  }
+ 			});
+ 		}
+ 	}
+</script>
+
+
+<div class="modal fade" id="editMyInfoModal" tabindex="-1px" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="false">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true"> 
+                  &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               	我的信息
+            </h4>
+         </div>
+         <div class="modal-body">
+         	<form role="form" class="form-horizontal" action="/my/saveMyInfo.jspx" method="post" id="form1">
+         	  <div class="form-group">  
+                  <label class="col-md-2 control-label" for="realName">姓名</label>  
+                  <div class="col-md-9">  
+                      <input class="form-control" name="realName" type="text" id="realName" placeholder="请输入您的真实姓名" />  
+                  </div>  
+              </div>  
+         	  <div class="form-group">  
+                  <label class="col-md-2 control-label" for="title">职称</label>  
+                  <div class="col-md-9">  
+                      <input class="form-control" name="title" type="text" id="title" placeholder="请输入您的职称" />  
+                  </div>  
+              </div>  
+         	  <div class="form-group">  
+                  <label class="col-md-2 control-label" for="email">邮箱</label>  
+                  <div class="col-md-9">  
+                      <input class="form-control" name="email" type="text" id="email" placeholder="请输入您的邮箱" />  
+                  </div>  
+              </div>  
+         	  <div class="form-group">  
+                  <label class="col-md-2 control-label" for="phone">固话</label>  
+                  <div class="col-md-9">  
+                      <input class="form-control" name="phone" type="text" id="phone" placeholder="请输入您的固定电话" />  
+                  </div>  
+              </div>  
+         	  <div class="form-group">  
+                  <label class="col-md-2 control-label" for="mobile">手机</label>  
+                  <div class="col-md-9">  
+                      <input class="form-control" name="mobile" type="text" id="mobile" placeholder="请输入您的手机号码" />  
+                  </div>  
+              </div>  
+         	  <div class="form-group">  
+                  <label class="col-md-2 control-label" for="preComment">公司名称</label>  
+                  <div class="col-md-9">  
+                      <input class="form-control" name="preComment" type="text" id="preComment" placeholder="请输入您所在公司的全称" />  
+                  </div>  
+              </div>  
+         	  <div class="form-group">  
+                  <label class="col-md-2 control-label" for="importance">联系地址</label>  
+                  <div class="col-md-9">  
+                      <input class="form-control" name="importance" type="text" id="importance" placeholder="请输入您的联系地址" />  
+                  </div>  
+              </div>  
+	        </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" onclick="saveMyInfo()">
+              	 保存
+            </button>
+         </div>
+      </div>
+</div>
+</div>
+
+<div class="container re-contact">
+    <div class="page-header">
+        <h2>详细情况 </h2>
+    </div>
+    
+    <table class="table table-bordered product-table-head">
+	 <tr>
+	  <th>客户姓名</th>
+	  <td>吴伟誉</td>
+	  <th>身份证号</th>
+	  <td>441802188574839285</td>
+	 </tr>
+	 <tr>
+	  <th>产品名称</th>
+	  <td>时代复兴全资产稳健量化基金一期</td>
+	  <th>当前分额</th>
+	  <td>20000</td>
+	 </tr>
+	</table>
+	
+	<table class="table table-bordered product-table-body">
+	 <tr>
+	  <th>开始日期</th>
+	  <th>结束日期</th>
+	  <th>累计净值</th>
+	  <th>累计收益率</th>
+	  <th>年化收益率</th>
+	  <th>夏普比率</th>
+	  <th>索提诺比率</th>
+	  <th>最大回撤</th>
+	 </tr>
+	 <tr>
+	  <td>2015-05-14</td>
+	  <td>2015-11-26</td>
+	  <td>1.1678</td>
+	  <td>16.78%</td>
+	  <td>16.78%</td>
+	  <td>2.77</td>
+	  <td>18.15</td>
+	  <td>0.93%</td>
+	 </tr>
+	</table>
+    
+    <div class="page-header">
+        <h2>净值曲线</h2>
+    </div>
+	 <canvas id="myChart" width="1000" height="500"></canvas> 
+	
+	<div class="page-header">
+        <h2>投资策略</h2>
+    </div>
+    
+<script>
+var data = {
+	labels : ["January","February","March","April","May","June","July"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [65,59,90,81,56,55,40]
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [28,48,40,19,96,27,100]
+		}
+	]
+}
+var ctx = $("#myChart").get(0).getContext("2d");
+var myNewChart = new Chart(ctx).Line(data);
+</script>
+</body>
+
